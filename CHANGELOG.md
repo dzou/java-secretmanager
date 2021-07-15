@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://www.github.com/googleapis/java-secretmanager/compare/v1.6.4...v1.7.0) (2021-07-15)
+
+
+### Features
+
+* Tune Secret Manager auto retry parameters ([#536](https://www.github.com/googleapis/java-secretmanager/issues/536)) ([dcb0303](https://www.github.com/googleapis/java-secretmanager/commit/dcb0303b25c0e8daf64b5e8ec20bda1b473c3f30))
+
 ### [1.6.4](https://www.github.com/googleapis/java-secretmanager/compare/v1.6.3...v1.6.4) (2021-07-01)
 
 
