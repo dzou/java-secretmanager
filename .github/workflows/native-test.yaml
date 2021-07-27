@@ -1,0 +1,39 @@
+name: GraalVM Native Image Testing
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  graal-java-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up GraalVM Compiler
+        uses: rinx/setup-graalvm-ce@v0.0.5
+        with:
+          graalvm-version: "21.1.0"
+          java-version: "java11"
+          native-image: "true"
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: latest
+          project_id: spring-cloud-gcp-ci
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          export_default_credentials: true
+
+      - name: Native Image Unit Tests
+        run: mvn test -Pnative
