@@ -36,4 +36,6 @@ jobs:
           export_default_credentials: true
 
       - name: Native Image Unit Tests
-        run: mvn test -Pnative
+        run: |
+          mvn clean install -B -q
+          mvn test -Pnative
