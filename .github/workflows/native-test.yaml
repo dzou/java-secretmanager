@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  graal-java-build:
+  native-java-build:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -31,11 +31,11 @@ jobs:
         uses: google-github-actions/setup-gcloud@master
         with:
           version: latest
-          project_id: spring-cloud-gcp-ci
+          project_id: unknown
           service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           export_default_credentials: true
 
       - name: Native Image Unit Tests
         run: |
           mvn clean install -B -q
-          mvn test -Pnative
+          mvn test -P native
