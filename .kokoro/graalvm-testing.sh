@@ -16,4 +16,29 @@ set -x
 # The final directory name in this path is determined by the scm name specified
 # in the job configuration.
 cd "${KOKORO_ARTIFACTS_DIR}/github/java-secretmanager"
-mvn --help
+
+# include common functions
+source .kokoro/common.sh
+
+# Print out Maven & Java version
+mvn -version
+echo ${JOB_TYPE}
+
+# Install GraalVM
+graalvmDir=${KOKORO_ARTIFACTS_DIR}/graalvm
+mkdir ${graalvmDir}
+
+retry_with_backoff 3 10 \
+  curl --fail --show-error --silent --location \
+  https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.2.0/graalvm-ce-java11-linux-amd64-21.2.0.tar.gz \
+  | tar xz --directory ${graalvmDir} --strip-components=1
+
+# Set GraalVM as the Java installation
+export JAVA_HOME=${graalvmDir}/bin
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Test Java
+java -version
+
+
+
