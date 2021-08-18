@@ -34,8 +34,11 @@ retry_with_backoff 3 10 \
   | tar xz --directory ${graalvmDir} --strip-components=1
 
 # Set GraalVM as the Java installation
-export JAVA_HOME=${graalvmDir}/bin
+export JAVA_HOME=${graalvmDir}
 export PATH="$JAVA_HOME/bin:$PATH"
+
+# Install Native Image
+gu install native-image
 
 # Test Java
 java -version
